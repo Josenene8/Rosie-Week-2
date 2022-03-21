@@ -166,7 +166,7 @@ class TitleState extends MusicBeatState
 		// bg.updateHitbox();
 		add(bg);
 
-		checkerboard = new FlxSprite(0, 0);
+		var checkerboard:FlxSprite = new FlxSprite(0, 0);
 		checkerboard.frames = Paths.getSparrowAtlas('title/checkerboard_pattern_movement');
 		checkerboard.antialiasing = true;
 		checkerboard.screenCenter();
@@ -176,7 +176,7 @@ class TitleState extends MusicBeatState
 		checkerboard.alpha = 0.8;
 		add(checkerboard);
 
-		logoBl = new FlxSprite(0, 0);
+		var logoBl:FlxSprite = new FlxSprite(0, 0);
 		logoBl.frames = Paths.getSparrowAtlas('title/logo_bump');
 		logoBl.antialiasing = true;
 		logoBl.screenCenter();
@@ -184,7 +184,7 @@ class TitleState extends MusicBeatState
 		logoBl.animation.play('bump');
 		logoBl.updateHitbox();
 
-		secondlogoBl = new FlxSprite(0, logoBl.y + 100);
+		var secondlogoBl:FlxSprite = new FlxSprite(0, logoBl.y + 100);
 		secondlogoBl.frames = Paths.getSparrowAtlas('title/title_bump');
 		secondlogoBl.antialiasing = true;
 		secondlogoBl.screenCenter(X);
@@ -192,12 +192,12 @@ class TitleState extends MusicBeatState
 		secondlogoBl.animation.play('bump');
 		secondlogoBl.updateHitbox();
 
-		rightRosie = new FlxSprite(secondlogoBl.x + 600, secondlogoBl.y + 150);
+		var rightRosie:FlxSprite = new FlxSprite(secondlogoBl.x + 600, secondlogoBl.y + 150);
 		rightRosie.frames = Paths.getSparrowAtlas('title/rosie_dance_left');
 		rightRosie.animation.addByPrefix('dance', 'rosie dance instância', 24);
 		rightRosie.antialiasing = true;
 
-		leftRosie = new FlxSprite(secondlogoBl.x - 250, secondlogoBl.y + 150);
+		var leftRosie:FlxSprite = new FlxSprite(secondlogoBl.x - 250, secondlogoBl.y + 150);
 		leftRosie.frames = Paths.getSparrowAtlas('title/rosie_dance_left');
 		leftRosie.animation.addByPrefix('dance', 'rosie dance instância', 24);
 		leftRosie.antialiasing = true;
