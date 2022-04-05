@@ -251,7 +251,19 @@ class DialogueBox extends FlxSpriteGroup
 			startDialogue();
 			dialogueStarted = true;
 		}
+                #if mobile
+		var justTouched:Bool = false;
 
+		for (touch in FlxG.touches.list)
+		{
+			justTouched = false;
+			
+			if (touch.justReleased){
+				justTouched = true;
+			}
+		}
+		#end
+		
 		if (FlxG.keys.justPressed.ENTER  && dialogueStarted == true)
 		{
 			remove(dialogue);
