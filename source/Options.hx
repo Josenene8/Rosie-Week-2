@@ -118,7 +118,42 @@ class CpuStrums extends Option
 	}
 
 }
+class CustomControls extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+	public override function press():Bool
+	{
+		FlxG.switchState(new options.CustomControlsState());
+		return true;
+	}
+	private override function updateDisplay():String
+	{
+		return "controls";
+	}
 
+}
+class About extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+	public override function press():Bool
+	{
+		FlxG.switchState(new options.AboutState());
+		return true;
+	}
+	private override function updateDisplay():String
+	{
+		return "About";
+	}
+
+}
 class DownscrollOption extends Option
 {
 	public function new(desc:String)
@@ -198,26 +233,6 @@ class SongPositionOption extends Option
 	private override function updateDisplay():String
 	{
 		return "Song Position " + (!FlxG.save.data.songPosition ? "off" : "on");
-	}
-}
-
-class DialogueOption extends Option
-{
-	public function new(desc:String)
-	{
-		super();
-		description = desc;
-	}
-	public override function press():Bool
-	{
-		FlxG.save.data.portuguese = !FlxG.save.data.portuguese;
-		display = updateDisplay();
-		return true;
-	}
-
-	private override function updateDisplay():String
-	{
-		return "Portuguese " + (!FlxG.save.data.portuguese ? "off" : "on");
 	}
 }
 
