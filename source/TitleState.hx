@@ -49,7 +49,15 @@ class TitleState extends MusicBeatState
 
 	override public function create():Void
 	{
+		#if android
+		FlxG.android.preventDefaultKeys = [BACK];
+		#end
+
+		#if polymod
+		polymod.Polymod.init({modRoot: "mods", dirs: ['introMod']});
+		#end
 		
+
 
 		@:privateAccess
 		{
@@ -113,12 +121,9 @@ class TitleState extends MusicBeatState
 	}
 
 	var logoBl:FlxSprite;
-	var secondlogoBl:FlxSprite;
-	var leftRosie:FlxSprite;
-	var checkerboard:FlxSprite;
-	var rightRosie:FlxSprite;
 	var gfDance:FlxSprite;
 	var danceLeft:Bool = false;
+	var titleText:FlxSprite;
 
 	function startIntro()
 	{
@@ -152,62 +157,38 @@ class TitleState extends MusicBeatState
 		Conductor.changeBPM(102);
 		persistentUpdate = true;
 
-		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.PINK);
+		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		// bg.antialiasing = true;
 		// bg.setGraphicSize(Std.int(bg.width * 0.6));
 		// bg.updateHitbox();
 		add(bg);
 
-		var checkerboard:FlxSprite = new FlxSprite(0, 0);
-		checkerboard.frames = Paths.getSparrowAtlas('title/checkerboard_pattern_movement');
-		checkerboard.antialiasing = true;
-		checkerboard.screenCenter();
-		checkerboard.animation.addByPrefix('move', 'checkerboard movement instância', 24);
-		checkerboard.animation.play('move');
-		checkerboard.updateHitbox();
-		checkerboard.alpha = 0.8;
-		add(checkerboard);
-
-		var logoBl:FlxSprite = new FlxSprite(0, 0);
-		logoBl.frames = Paths.getSparrowAtlas('title/logo_bump');
+		logoBl = new FlxSprite(-150, -100);
+		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
 		logoBl.antialiasing = true;
-		logoBl.screenCenter();
-		logoBl.animation.addByPrefix('bump', 'logo bumpin instância', 24);
+		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24);
 		logoBl.animation.play('bump');
 		logoBl.updateHitbox();
-
-		var secondlogoBl:FlxSprite = new FlxSprite(0, logoBl.y + 100);
-		secondlogoBl.frames = Paths.getSparrowAtlas('title/title_bump');
-		secondlogoBl.antialiasing = true;
-		secondlogoBl.screenCenter(X);
-		secondlogoBl.animation.addByPrefix('bump', 'logo bumpin 2 instância', 24);
-		secondlogoBl.animation.play('bump');
-		secondlogoBl.updateHitbox();
-
-		var rightRosie:FlxSprite = new FlxSprite(secondlogoBl.x + 600, secondlogoBl.y + 150);
-		rightRosie.frames = Paths.getSparrowAtlas('title/rosie_dance_left');
-		rightRosie.animation.addByPrefix('dance', 'rosie dance instância', 24);
-		rightRosie.antialiasing = true;
-
-		var leftRosie:FlxSprite = new FlxSprite(secondlogoBl.x - 250, secondlogoBl.y + 150);
-		leftRosie.frames = Paths.getSparrowAtlas('title/rosie_dance_left');
-		leftRosie.animation.addByPrefix('dance', 'rosie dance instância', 24);
-		leftRosie.antialiasing = true;
-
-
+		// logoBl.screenCenter();
 		// logoBl.color = FlxColor.BLACK;
 
-/*		gfDance = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.07);
+		gfDance = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.07);
 		gfDance.frames = Paths.getSparrowAtlas('gfDanceTitle');
 		gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 		gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 		gfDance.antialiasing = true;
 		add(gfDance);
-*/
 		add(logoBl);
-		add(secondlogoBl);
-		add(rightRosie);
-		add(leftRosie);
+
+		titleText = new FlxSprite(100, FlxG.height * 0.8);
+		titleText.frames = Paths.getSparrowAtlas('titleEnter');
+		titleText.animation.addByPrefix('idle', "Press Enter to Begin", 24);
+		titleText.animation.addByPrefix('press', "ENTER PRESSED", 24);
+		titleText.antialiasing = true;
+		titleText.animation.play('idle');
+		titleText.updateHitbox();
+		// titleText.screenCenter(X);
+		add(titleText);
 
 		var logo:FlxSprite = new FlxSprite().loadGraphic(Paths.image('logo'));
 		logo.screenCenter();
@@ -221,7 +202,7 @@ class TitleState extends MusicBeatState
 		add(credGroup);
 		textGroup = new FlxGroup();
 
-		blackScreen = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.PINK);
+		blackScreen = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		credGroup.add(blackScreen);
 
 		credTextShit = new Alphabet(0, 0, "ninjamuffin99\nPhantomArcade\nkawaisprite\nevilsk8er", true);
@@ -306,15 +287,10 @@ class TitleState extends MusicBeatState
 
 		if (pressedEnter && !transitioning && skippedIntro)
 		{
-			#if !switch
-			
 
-			// If it's Friday according to da clock
-			if (Date.now().getDay() == 5)
-				
-			#end
 
 			if (FlxG.save.data.flashing)
+				titleText.animation.play('press');
 
 			FlxG.camera.flash(FlxColor.WHITE, 1);
 			FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
@@ -326,7 +302,34 @@ class TitleState extends MusicBeatState
 
 			new FlxTimer().start(2, function(tmr:FlxTimer)
 			{
-				FlxG.switchState(new OutdatedSubState());
+				// Get current version of Kade Engine
+				
+				var http = new haxe.Http("https://raw.githubusercontent.com/KadeDev/Kade-Engine/master/version.downloadMe");
+				var returnedData:Array<String> = [];
+				
+				http.onData = function (data:String)
+				{
+					returnedData[0] = data.substring(0, data.indexOf(';'));
+					returnedData[1] = data.substring(data.indexOf('-'), data.length);
+				  	if (!MainMenuState.kadeEngineVer.contains(returnedData[0].trim()) && !OutdatedSubState.leftState && MainMenuState.nightly == "")
+					{
+						trace('outdated lmao! ' + returnedData[0] + ' != ' + MainMenuState.kadeEngineVer);
+						OutdatedSubState.needVer = returnedData[0];
+						OutdatedSubState.currChanges = returnedData[1];
+						FlxG.switchState(new OutdatedSubState());
+					}
+					else
+					{
+						FlxG.switchState(new MainMenuState());
+					}
+				}
+				
+				http.onError = function (error) {
+				  trace('error: $error');
+				  FlxG.switchState(new MainMenuState()); // fail but we go anyway
+				}
+				
+				http.request();
 			});
 			// FlxG.sound.play(Paths.music('titleShoot'), 0.7);
 		}
@@ -374,23 +377,19 @@ class TitleState extends MusicBeatState
 		super.beatHit();
 
 		logoBl.animation.play('bump');
-		secondlogoBl.animation.play('bump');
-		rightRosie.animation.play('dance');
-		leftRosie.animation.play('dance');
-		checkerboard.animation.play('move');
-//		danceLeft = !danceLeft;
+		danceLeft = !danceLeft;
 
-/*		if (danceLeft)
+		if (danceLeft)
 			gfDance.animation.play('danceRight');
 		else
 			gfDance.animation.play('danceLeft');
-*/
+
 		FlxG.log.add(curBeat);
 
 		switch (curBeat)
 		{
 			case 1:
-				createCoolText(['Belladona Gang']);
+				createCoolText(['ninjamuffin99', 'phantomArcade', 'kawaisprite', 'evilsk8er']);
 			// credTextShit.visible = true;
 			case 3:
 				addMoreText('present');
