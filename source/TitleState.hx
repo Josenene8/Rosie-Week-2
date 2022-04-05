@@ -314,8 +314,7 @@ class TitleState extends MusicBeatState
 				  	if (!MainMenuState.kadeEngineVer.contains(returnedData[0].trim()) && !OutdatedSubState.leftState && MainMenuState.nightly == "")
 					{
 						trace('outdated lmao! ' + returnedData[0] + ' != ' + MainMenuState.kadeEngineVer);
-						OutdatedSubState.needVer = returnedData[0];
-						OutdatedSubState.currChanges = returnedData[1];
+						
 						FlxG.switchState(new OutdatedSubState());
 					}
 					else
