@@ -21,6 +21,10 @@ class OutdatedSubState extends MusicBeatState
 		bg.screenCenter();
 		add(bg);		
 	}
+	
+        #if mobileC
+        addVirtualPad(NONE, A_B);
+        #end
 
 	override function update(elapsed:Float)
 	{
