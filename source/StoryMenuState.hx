@@ -68,7 +68,7 @@ class StoryMenuState extends MusicBeatState
 
 		persistentUpdate = persistentDraw = true;
 
-		
+		/*
 
 		scoreText = new FlxText(10, 10, 0, "SCORE: 49324858", 36);
 		scoreText.setFormat("VCR OSD Mono", 32);
@@ -177,11 +177,7 @@ class StoryMenuState extends MusicBeatState
 		trace("Line 165");
 
 		super.create();
-		
-		#if mobileC
-		addVirtualPad(FULL, A_B);
-		#end
-
+		*/
 		selectWeek();
 	}
 
