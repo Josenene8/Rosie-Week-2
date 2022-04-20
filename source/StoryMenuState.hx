@@ -68,7 +68,7 @@ class StoryMenuState extends MusicBeatState
 
 		persistentUpdate = persistentDraw = true;
 
-		/*
+		
 
 		scoreText = new FlxText(10, 10, 0, "SCORE: 49324858", 36);
 		scoreText.setFormat("VCR OSD Mono", 32);
@@ -168,7 +168,7 @@ class StoryMenuState extends MusicBeatState
 		txtTracklist.font = rankText.font;
 		txtTracklist.color = 0xFFe55777;
 		add(txtTracklist);
-		// add(rankText);
+		 add(rankText);
 		add(scoreText);
 		add(txtWeekTitle);
 
@@ -180,7 +180,7 @@ class StoryMenuState extends MusicBeatState
 
 		super.create();
 
-		*/
+		
 		
 		#if mobileC
 		addVirtualPad(FULL, A_B);
@@ -191,7 +191,7 @@ class StoryMenuState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		/*
+		
 		// scoreText.setFormat('VCR OSD Mono', 32);
 		lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, 0.5));
 
@@ -251,7 +251,7 @@ class StoryMenuState extends MusicBeatState
 			movedBack = true;
 			FlxG.switchState(new MainMenuState());
 		}
-		*/
+		
 
 		super.update(elapsed);
 	}
